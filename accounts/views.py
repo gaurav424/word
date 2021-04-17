@@ -51,3 +51,7 @@ def loginPage(request):
 def home(request):
 	context={}
 	return render(request,'word/dashboard.html', context)
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login')	
