@@ -25,12 +25,14 @@ class Survey(models.Model):
 
 
 class Record(models.Model):
+	survey_id = models.CharField(max_length = 200, null = True)
 	name = models.CharField(max_length = 200, null = True)
 	email = models.CharField(max_length = 200, null = True)
 	osat = models.CharField(max_length = 200, null = True)
 	comment = models.CharField(max_length = 1000, null = True)
-
+	user = models.ForeignKey(User, default=None, on_delete = models.SET_NULL, null=True)
+	customer = models.ForeignKey(Customer, default=None, on_delete = models.SET_NULL, null=True)
 	def __str__(self):
-		return self.name
+		return self.survey_id
 
-	customer = models.ForeignKey(Customer, null = True, on_delete = models.SET_NULL)
+	

@@ -1,0 +1,36 @@
+{% extends 'word/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+            <h5>Responses</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Survey ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>OSAT</th>
+                    <th>Comment</th>
+                </tr>
+
+             {% for record in records %} 
+                 <tr>
+                        <td>{{record.survey_id}}</td>
+                        <td>{{record.name}}</td>
+                        <td>{{record.email}}</td>
+                        <td>{{record.osat}}</td>
+                        <td>{{record.comment}}</td>
+                    </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

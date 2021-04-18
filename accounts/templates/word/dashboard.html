@@ -6,41 +6,24 @@
 
 <br>
 <div class="row">
-    <div class="col-md-5">
-        <h5>CUSTOMERS:</h5>
-        <hr>
-        <div class="card card-body">
-            <a class="btn btn-primary btn-sm btn-block" href="">Create Customer</a>
-            <table class="table table-sm">
-                <tr>
-                    <th></th>
-                    <th>Customer</th>
-                    <th>Orders</th>
-                </tr>
-
-
-            </table>
-        </div>
-    </div>
-
-    <div class="col-md-7">
-        <h5>LAST 5 ORDERS</h5>
-        <hr>
-        <div class="card card-body">
-            <table class="table table-sm">
-                <tr>
-                    <th>Update</th>
-                    <th>Remove</th>
-                </tr>
-
-                    <tr>
-                        <td><a class="btn btn-sm btn-info" href="">Update</a></td>
-                        <td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
-                    </tr>
-
-            </table>
-        </div>
-    </div>
+	<div class="col-md">
+	   {% if messages %}
+	    {% for message in messages %}
+	        <div>
+	            <strong>{{message|safe}}</strong>
+	        </div>
+	    {% endfor %}
+	{% else %}
+	{{order}}
+	<form method="POST" action="{% url 'uploaddata' %}" enctype="multipart/form-data">
+	    {% csrf_token %}
+	    <label>Upload a file</label>
+	    <input type="file" name="file" />
+	    <p>Only accepts CSV files</p>
+	    <button type="submit">Upload</button>
+	</form>
+	{% endif %}
+	</div>
 </div>
 {%endblock%}
 
