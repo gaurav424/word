@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import csv,io
+import json
 
 from .models import *
 from .forms import *
@@ -50,7 +51,11 @@ def loginPage(request):
 
 
 def home(request):
-	context={}
+	user_loggedin = request.user
+	parent = Customer.objects.get(username= user_loggedin)
+	total_records_received = parent.record_set.all().count()
+	context={'records_recieved':total_records_received}
+
 	return render(request,'word/dashboard.html', context)
 
 def logoutUser(request):
@@ -66,9 +71,7 @@ def viewResponse(request):
 		records_list = list(child)
 		allrecords = []
 		for i in records_list:
-			print (i)
 			allrecords.append(Record.objects.get(survey_id=str(i)))
-		print (allrecords)
 		records=allrecords
 		context={'records':records}
 		return render(request,'word/responses.html', context)
@@ -79,6 +82,28 @@ def viewResponse(request):
 def uploadData(request):
 	if len(request.FILES) != 0:
 		csv_file = request.FILES['file']
+		user_addingrecord = request.user
+		customer_addingrecord = Customer.objects.get(username = user_addingrecord)
+
+		if csv_file.name.endswith('.json'):
+
+			with open("static/images/test_json_file_2.json") as f:
+				data = json.load(f)
+				data_dict = data['records']
+				for key in data_dict:
+					_, created = Record.objects.update_or_create(
+					survey_id = key['survey_id'],
+					name = key['name'],
+					email = key['email'],
+					osat = key['osat'],
+					comment = key['comment'],
+					customer = customer_addingrecord,
+					user = request.user
+				)
+			records = Record.objects.all()
+			context={'records':records}
+			return render(request,'word/responses.html', context)	
+
 
 		if not csv_file.name.endswith('.csv'):
 			messages.error(request, 'This is not a csv file')

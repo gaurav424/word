@@ -1,0 +1,18 @@
+{
+  "records": [
+    {
+      "survey_id": "1441",
+      "name": "test44",
+      "email": "test44@test.com",
+      "osat": "10",
+      "comment": "First JSON comment"
+    },
+    {
+      "survey_id": "1442",
+      "name": "test45",
+      "email": "test45@test.com",
+      "osat": "6",
+      "comment": "Second JSON comment"
+    }
+  ]
+}
