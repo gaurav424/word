@@ -71,8 +71,10 @@ def viewResponse(request):
 		records_list = list(child)
 		allrecords = []
 		for i in records_list:
-			allrecords.append(Record.objects.get(survey_id=str(i)))
+			print(i)
+			allrecords.append(Record.objects.get(surveyid=str(i)))
 		records=allrecords
+		print (records)
 		context={'records':records}
 		return render(request,'word/responses.html', context)
 	else:
@@ -92,7 +94,6 @@ def uploadData(request):
 				data_dict = data['records']
 				for key in data_dict:
 					_, created = Record.objects.update_or_create(
-					survey_id = key['survey_id'],
 					name = key['name'],
 					email = key['email'],
 					osat = key['osat'],
@@ -117,15 +118,21 @@ def uploadData(request):
 		customer_addingrecord = Customer.objects.get(username = user_addingrecord)
 		for column in csv.reader(io_string, delimiter = ',', quotechar = '"'):
 			_, created = Record.objects.update_or_create(
-					survey_id = column[0],
-					name = column[1],
-					email = column[2],
-					osat = column[3],
-					comment = column[4],
+					name = column[0],
+					email = column[1],
+					osat = column[2],
+					comment = column[3],
 					customer = customer_addingrecord,
 					user = request.user
 				)
-		records = Record.objects.all()
+		user_loggedin = request.user
+		parent = Customer.objects.get(username = user_loggedin)
+		child = parent.record_set.all()
+		records_list = list(child)
+		allrecords = []
+		for i in records_list:
+			allrecords.append(Record.objects.get(surveyid=str(i)))
+		records=allrecords
 		context={'records':records}
 		return render(request,'word/responses.html', context)
 	else:
