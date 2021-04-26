@@ -149,8 +149,7 @@ def uploadData(request):
 
 
 def testSurvey(request):
-	customer = request.user.customer
-	form = TestSurvey(instance = customer)
+	form = TestSurvey()
 	context={}
 	if request.method == 'POST':
 		form = TestSurvey(request.POST)
