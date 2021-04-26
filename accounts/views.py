@@ -4,6 +4,8 @@ from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.template import RequestContext
+
 import csv,io
 import json
 
@@ -170,6 +172,8 @@ def testSurvey(request):
 		if form.is_valid():
 			form.save()
 		return render(request,'word/post_survey.html', context)
+		#return render('word/post_survey.html', context,  RequestContext(request))
 
 	context={'form':form}
 	return render(request,'word/test_survey.html', context)
+	#return render('word/test_survey.html', context,  RequestContext(request))
