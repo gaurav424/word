@@ -1,0 +1,114 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> GSN Test Survey</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/test_survey.css' %}" />
+    <script type="text/javascript" src="{% static 'js/test_survey.js' %}"></script>
+</head>
+<body> 
+    <div class="container mt-5">
+        <div class="card">
+            <h5 class="card-header text-center"></h5>
+            <div class="card-body">
+                <form method="POST" action="{% url 'testSurvey' %}" role="form" data-toggle="validator">
+                    {% csrf_token %}
+                    <div class="form-group" id="formgroup1">
+                        <div class="Question-Group" id="1">
+                            <label>Overall, how satisfied are you?</label>
+                        </div>
+                        <div class="Answer-Group" id="answergroup1">
+                             <div class="rating" data-error="Error: This is required"> 
+                                <input type="radio" name="osat" value="5" id="5">
+                                    <label for="5">☆</label> 
+                                <input type="radio" name="osat" value="4" id="4">
+                                    <label for="4">☆</label> 
+                                <input type="radio" name="osat" value="3" id="3">
+                                    <label for="3">☆</label> 
+                                <input type="radio" name="osat" value="2" id="2">
+                                    <label for="2">☆</label> 
+                                <input type="radio" name="osat" value="1" id="1">
+                                    <label for="1">☆</label>
+                             </div>
+                            <div class="help-block with-errors"></div>  
+                        </div> 
+                    </div>
+
+                     <div class="form-group" id="formgroup2">
+                         <div class="Question-Group" id="2">
+                            <label>Reason for your score</label>
+                        </div>
+                        <div class="Answer-Group" id="answergroup2">
+                            <textarea class="form-control" name = "rsn_for_score" data-error="Please enter message." id="inputMessage"
+                            placeholder="Message"></textarea>    
+                        </div>
+                        <!-- Error -->
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+
+                     <div class="form-group" id="formgroup3">
+                         <div class="Question-Group" id="3">
+                            <label>Do we have the permission to contact you</label>
+                        </div>
+                        <div class="Answer-Group" id="answergroup3">
+                            <input type="radio" id="contact_yes" name="permission_to_contact" value="Yes">
+                                <label for="Yes">Yes</label><br>
+                            <input type="radio" id="contact_no" name="permission_to_contact" value="No">
+                                <label for="No">No</label><br>
+                        </div>
+
+                        <!-- Error -->
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group" id="formgroup4" style="display: none;">
+                        <div class="Question-Group" id="4">
+                            <label>Name</label>
+                        </div>
+                        <div class="Answer-Group" id="answergroup4">
+                            <input name = "name" type="text" class="form-control" data-error="You must have a name." id="inputName" placeholder="Name" >
+                        </div>
+                        <!-- Error -->
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+                    <div class="form-group" id="formgroup5" style="display: none;">
+                        <div class="Question-Group" id="5">
+                             <label>Email</label>
+                        </div>
+                        <div class="Answer-Group" id="answergroup5">
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+                        </div>
+                        <!-- Error -->
+                        <div class="help-block with-errors"></div>
+                    </div>
+
+
+                    <div class="form-group" id="formgroup6" style="display: none;">
+                        <div class="Question-Group" id="6">
+                            <label>Mobile Number</label>
+                        </div> 
+                        <div>
+                            <input name="mobile" type="text" data-minlength="10" class="form-control" id="inputPhone"
+                                data-error="Please enter a valid phone number" placeholder="Phone Number"/>
+                        </div>
+                        <!-- Error -->
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

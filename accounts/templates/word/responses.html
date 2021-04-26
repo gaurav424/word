@@ -11,7 +11,7 @@
         </div>
         <div class="card card-body">
             <table class="table">
-                <tr>
+                <tr align="center">
                     <th>Survey ID</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -20,12 +20,12 @@
                 </tr>
 
              {% for record in records %} 
-                 <tr>
+                 <tr align="center">
                         <td>{{record.surveyid}}</td>
                         <td>{{record.name}}</td>
                         <td>{{record.email}}</td>
                         <td>{{record.osat}}</td>
-                        <td>{{record.comment}}</td>
+                        <td>{{record.rsn_for_score}}</td>
                     </tr>
             {% endfor %}
             </table>

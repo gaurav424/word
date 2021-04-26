@@ -52,8 +52,8 @@ def loginPage(request):
 
 def home(request):
 	user_loggedin = request.user
-	parent = Customer.objects.get(username= user_loggedin)
-	total_records_received = parent.record_set.all().count()
+	#total_records_received = survey_list.record_set.all().count()
+	total_records_received=0
 	context={'records_recieved':total_records_received}
 
 	return render(request,'word/dashboard.html', context)
@@ -67,12 +67,20 @@ def viewResponse(request):
 	parent = Customer.objects.filter(username= user_loggedin)
 	if parent:
 		parent = Customer.objects.get(username= user_loggedin)
-		child = parent.record_set.all()
-		records_list = list(child)
+		org_id = parent.org.id
+		survey_list = Survey.objects.filter(org = org_id)
+		survey_list_id = []
+		for i in survey_list:
+			survey_list_id.append(i.id)
+		#child = parent.record_set.all()
+		#records_list = list(child)
 		allrecords = []
-		for i in records_list:
-			print(i)
-			allrecords.append(Record.objects.get(surveyid=str(i)))
+		for i in survey_list_id:
+			survey_name = Survey.objects.get(id = i)
+			child = survey_name.record_set.all()
+			records_list = list(child)
+			for i in records_list:
+				allrecords.append(Record.objects.get(surveyid=str(i)))
 		records=allrecords
 		print (records)
 		context={'records':records}
@@ -138,3 +146,31 @@ def uploadData(request):
 	else:
 		context={}
 		return redirect('responses')
+
+
+def testSurvey(request):
+	customer = request.user.customer
+	form = TestSurvey(instance = customer)
+	context={}
+	if request.method == 'POST':
+		form = TestSurvey(request.POST)
+		print(form.errors.as_data())
+		name = form.cleaned_data.get('name')
+		osat = form.cleaned_data.get('osat')
+		mobile = form.cleaned_data.get('mobile')
+		email = form.cleaned_data.get('email')
+		rsn_for_score = form.cleaned_data.get('rsn_for_score')
+		permission_to_contact = form.cleaned_data.get('permission_to_contact')
+		comment = form.cleaned_data.get('comment')
+		print("name = ",name)
+		print("osat = ",osat)
+		print("mobile = ", mobile)
+		print("email = ", email)
+		print("rsn_for_score = ", rsn_for_score)
+		print("permission_to_contact = ", permission_to_contact)
+		if form.is_valid():
+			form.save()
+		return render(request,'word/post_survey.html', context)
+
+	context={'form':form}
+	return render(request,'word/test_survey.html', context)

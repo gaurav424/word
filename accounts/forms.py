@@ -15,3 +15,9 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username','email','password1','password2']
+
+class TestSurvey(ModelForm):
+	class Meta:
+		model = Record
+		fields = '__all__'
+		

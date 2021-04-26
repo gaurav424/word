@@ -25,7 +25,7 @@ class Customer(models.Model):
 
 
 class Survey(models.Model):
-	name = models.CharField(max_length = 200, null = True)
+	name = models.CharField(max_length = 200, null = True, default=1)
 	org = models.ForeignKey(Organization, default=None, on_delete = models.SET_NULL, null=True)
 	
 	def __str__(self):
@@ -34,14 +34,20 @@ class Survey(models.Model):
 	
 
 class Record(models.Model):
+	PERMSSION_TO_CONTACT = (
+	('Yes','Yes'),
+	('No','No'),
+	)
 	surveyid = models.AutoField(primary_key=True, verbose_name = 'Survey ID', default = None)
-	name = models.CharField(max_length = 200, null = True)
-	email = models.CharField(max_length = 200, null = True)
+	name = models.CharField(max_length = 200, null = True, blank=True)
+	mobile = models.CharField(max_length = 10, null = True, blank=True)
+	email = models.CharField(max_length = 200, null = True, blank=True)
 	osat = models.CharField(max_length = 200, null = True)
-	comment = models.CharField(max_length = 1000, null = True)
-	user = models.ForeignKey(User, default=None, on_delete = models.SET_NULL, null=True)
-	customer = models.ForeignKey(Customer, default=None, on_delete = models.SET_NULL, null=True)
-	survey = models.ForeignKey(Survey, default=1, on_delete = models.SET_NULL, null=True)
+	rsn_for_score = models.CharField(max_length = 1000, null = True, blank=True)
+	permission_to_contact = models.CharField(max_length = 200, null = True, choices = PERMSSION_TO_CONTACT, blank=True)
+	#user = models.ForeignKey(User, default=None, on_delete = models.SET_NULL, null=True)
+	#customer = models.ForeignKey(Customer, default=None, on_delete = models.SET_NULL, null=True)
+	survey = models.ForeignKey(Survey, default=1, on_delete = models.SET_NULL, null=True, blank=True)
 
 	def __str__(self):
 		survey_id = str(self.surveyid)
